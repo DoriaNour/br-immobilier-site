@@ -36,6 +36,10 @@ export interface Membre {
   nom: string;
   fonction: string;
   photo: string | null; // null => "À COMPLÉTER"
+  /** Réglages individuels du cadrage (cadre uniforme conservé) */
+  zoom?: number; // transform: scale() — 1 = défaut, >1 zoome, <1 dézoome
+  shiftY?: number; // décalage vertical en % via translateY — négatif = monte la photo
+  shiftX?: number; // décalage horizontal en % via translateX — positif = vers la droite
 }
 
 export interface Bien {
@@ -86,37 +90,37 @@ export const avisGlobal: AvisGlobal = {
 
 /* Équipe (br-immo.fr/equipe) — noms & fonctions réels ; photos non extractibles => null. */
 export const equipe: Membre[] = [
-  { nom: "Killian BAYON", fonction: "Directeur", photo: null },
-  { nom: "Thibaut BLANCHARD", fonction: "Team Leader", photo: null },
-  { nom: "Arnaud DUPUY", fonction: "Team Leader", photo: null },
-  { nom: "Samy AHNOUDJ", fonction: "Team Leader", photo: null },
-  { nom: "Doria ATTIA", fonction: "Chargée des Ressources Humaines", photo: null },
-  { nom: "Anaïs BENAROUIA", fonction: "Community Manager", photo: null },
-  { nom: "Maxime PINCEMMIN", fonction: "Agent commercial en immobilier", photo: null },
-  { nom: "Boubou CISSÉ", fonction: "Agent commercial en immobilier", photo: null },
-  { nom: "Nadia PEREZ", fonction: "Agent commercial en immobilier", photo: null },
-  { nom: "Pénélope COUSIN", fonction: "Agent commercial en immobilier", photo: null },
-  { nom: "Steven MOUYOKOLO", fonction: "Agent commercial en immobilier", photo: null },
-  { nom: "Margaux SCHWARZ", fonction: "Agent commercial en immobilier", photo: null },
-  { nom: "Clohé MENSION", fonction: "Agent commercial en immobilier", photo: null },
-  { nom: "Eva ALANTAR", fonction: "Agent commercial en immobilier", photo: null },
-  { nom: "Cédric GOUSSAUD", fonction: "Agent commercial en immobilier", photo: null },
-  { nom: "Yousra FOUATIH", fonction: "Agent commercial en immobilier", photo: null },
-  { nom: "Alex MALANDIN", fonction: "Agent commercial en immobilier", photo: null },
-  { nom: "Elmahi BEN AMMAR", fonction: "Agent commercial en immobilier", photo: null },
-  { nom: "Imen LOUATI", fonction: "Agent commercial en immobilier", photo: null },
-  { nom: "Albane WEBER", fonction: "Agent commercial en immobilier", photo: null },
-  { nom: "Samira ALAOUI", fonction: "Agent commercial en immobilier", photo: null },
-  { nom: "Julie JAMET", fonction: "Agent commercial en immobilier", photo: null },
-  { nom: "Job HAMANE", fonction: "Agent commercial en immobilier", photo: null },
-  { nom: "Nicolas MASLOWSKI", fonction: "Agent commercial en immobilier", photo: null },
-  { nom: "Jason OKOYE", fonction: "Agent commercial en immobilier", photo: null },
-  { nom: "Rosine MUTANGANA", fonction: "Agent commercial en immobilier", photo: null },
-  { nom: "Evan PRISO", fonction: "Agent commercial en immobilier", photo: null },
-  { nom: "Yoann MCGAIETH", fonction: "Agent commercial en immobilier", photo: null },
-  { nom: "Elyes ZAMMIT", fonction: "Agent commercial en immobilier", photo: null },
-  { nom: "Emma ROUART", fonction: "Négociatrice immobilier — Alternante", photo: null },
-  { nom: "Alexandre DUBAR", fonction: "Négociateur immobilier — Alternance", photo: null },
+  { nom: "Killian BAYON", fonction: "Directeur", photo: "/equipe/killian-bayon.jpg", zoom: 1.35, shiftY: -12 },
+  { nom: "Thibaut BLANCHARD", fonction: "Team Leader", photo: "/equipe/thibaut-blanchard.jpg" },
+  { nom: "Arnaud DUPUY", fonction: "Team Leader", photo: "/equipe/arnaud-dupuy.jpg" },
+  { nom: "Samy AHNOUDJ", fonction: "Team Leader", photo: "/equipe/samy-ahnoudj.jpg", shiftX: 12 },
+  { nom: "Doria ATTIA", fonction: "Chargée des Ressources Humaines", photo: "/equipe/doria-attia.jpg" },
+  { nom: "Anaïs BENAROUIA", fonction: "Community Manager", photo: "/equipe/anais-benarouia.jpg" },
+  { nom: "Maxime PINCEMMIN", fonction: "Agent commercial en immobilier", photo: "/equipe/maxime-pincemmin.jpg" },
+  { nom: "Boubou CISSÉ", fonction: "Agent commercial en immobilier", photo: "/equipe/boubou-cisse.jpg" },
+  { nom: "Nadia PEREZ", fonction: "Agent commercial en immobilier", photo: "/equipe/nadia-perez.jpg" },
+  { nom: "Pénélope COUSIN", fonction: "Agent commercial en immobilier", photo: "/equipe/penelope-cousin.jpg" },
+  { nom: "Steven MOUYOKOLO", fonction: "Agent commercial en immobilier", photo: "/equipe/steven-mouyokolo.jpg" },
+  { nom: "Margaux SCHWARZ", fonction: "Agent commercial en immobilier", photo: "/equipe/margaux-schwarz.jpg" },
+  { nom: "Clohé MENSION", fonction: "Agent commercial en immobilier", photo: "/equipe/clohe-mension.jpg" },
+  { nom: "Eva ALANTAR", fonction: "Agent commercial en immobilier", photo: "/equipe/eva-alantar.jpg", zoom: 1.1, shiftY: -8 },
+  { nom: "Cédric GOUSSAUD", fonction: "Agent commercial en immobilier", photo: "/equipe/cedric-goussaud.jpg" },
+  { nom: "Yousra FOUATIH", fonction: "Agent commercial en immobilier", photo: "/equipe/yousra-fouatih.jpg" },
+  { nom: "Alex MALANDIN", fonction: "Agent commercial en immobilier", photo: "/equipe/alex-malandin.jpg" },
+  { nom: "Elmahi BEN AMMAR", fonction: "Agent commercial en immobilier", photo: "/equipe/elmahi-ben-ammar.jpg" },
+  { nom: "Imen LOUATI", fonction: "Agent commercial en immobilier", photo: "/equipe/imen-louati.jpg" },
+  { nom: "Albane WEBER", fonction: "Agent commercial en immobilier", photo: "/equipe/albane-weber.jpg" },
+  { nom: "Samira ALAOUI", fonction: "Agent commercial en immobilier", photo: "/equipe/samira-alaoui.jpg" },
+  { nom: "Julie JAMETAL", fonction: "Agent commercial en immobilier", photo: "/equipe/julie-jametal.jpg" },
+  { nom: "Job HAMANE", fonction: "Agent commercial en immobilier", photo: "/equipe/job-hamane.jpg", zoom: 1.12, shiftY: -8 },
+  { nom: "Nicolas MASLOWSKI", fonction: "Agent commercial en immobilier", photo: "/equipe/nicolas-maslowski.jpg" },
+  { nom: "Jason OKOYE", fonction: "Agent commercial en immobilier", photo: "/equipe/jason-okoye.jpg" },
+  { nom: "Rosine MUTANGANA", fonction: "Agent commercial en immobilier", photo: "/equipe/rosine-mutangana.jpg" },
+  { nom: "Evan PRISO", fonction: "Agent commercial en immobilier", photo: "/equipe/evan-priso.jpg" },
+  { nom: "Yoann MCGAIETH", fonction: "Agent commercial en immobilier", photo: "/equipe/yoann-mcgaieth.jpg" },
+  { nom: "Elyes ZAMMIT", fonction: "Agent commercial en immobilier", photo: "/equipe/elyes-zammit.jpg" },
+  { nom: "Emma ROUART", fonction: "Négociatrice immobilier — Alternante", photo: "/equipe/emma-rouart.jpg" },
+  { nom: "Alexandre DUBAR", fonction: "Négociateur immobilier — Alternance", photo: "/equipe/alexandre-dubar.jpg" },
 ];
 
 /* Biens (br-immo.fr/vente) — faits réels ; descriptions détaillées => "À COMPLÉTER". */

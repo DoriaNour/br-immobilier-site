@@ -46,7 +46,7 @@ export function TeamCarousel() {
             Notre équipe
           </p>
           <h2 className="mt-3 font-serif text-4xl font-medium md:text-5xl">
-            Les négociateurs BR Immobilier
+            Les collaborateurs BR Immobilier
           </h2>
         </Reveal>
 
@@ -66,14 +66,26 @@ export function TeamCarousel() {
                         type="button"
                         onClick={() => setActiveMembre(m)}
                         aria-label={`Voir les avis de ${m.nom}`}
-                        className="group relative grid aspect-[3/3.6] w-full place-items-center overflow-hidden rounded-sm border border-border bg-gradient-to-b from-secondary to-muted"
+                        className="group relative grid aspect-[2/3] w-full place-items-center overflow-hidden rounded-sm border border-border bg-gradient-to-b from-secondary to-muted"
                       >
-                        <span className="font-serif text-5xl tracking-wide transition-transform duration-500 group-hover:scale-95">
-                          {initiales(m.nom)}
-                        </span>
-                        <span className="absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-background/70 px-2.5 py-1 text-[0.56rem] uppercase tracking-[0.18em] text-muted-foreground">
-                          Photo · À COMPLÉTER
-                        </span>
+                        {m.photo ? (
+                          <img
+                            src={m.photo}
+                            alt={m.nom}
+                            loading="lazy"
+                            style={{ objectPosition: "50% 0%", "--z": m.zoom ?? 1, "--ty": `${m.shiftY ?? 0}%`, "--tx": `${m.shiftX ?? 0}%` } as React.CSSProperties}
+                            className="h-full w-full origin-top object-cover transition-transform duration-500 [transform:translate(var(--tx),var(--ty))_scale(var(--z))] group-hover:[transform:translate(var(--tx),var(--ty))_scale(calc(var(--z)*1.05))]"
+                          />
+                        ) : (
+                          <>
+                            <span className="font-serif text-5xl tracking-wide transition-transform duration-500 group-hover:scale-95">
+                              {initiales(m.nom)}
+                            </span>
+                            <span className="absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-background/70 px-2.5 py-1 text-[0.56rem] uppercase tracking-[0.18em] text-muted-foreground">
+                              Photo · À COMPLÉTER
+                            </span>
+                          </>
+                        )}
 
                         {/* Pastille nombre d'avis */}
                         {stats.count > 0 && (
@@ -135,8 +147,8 @@ export function TeamCarousel() {
         </div>
 
         <p className="mt-8 text-center text-sm italic text-muted-foreground">
-          Photos des négociateurs : <strong>À COMPLÉTER</strong> (non extractibles automatiquement
-          depuis br-immo.fr). Cliquez sur une vignette pour voir les avis clients.
+          Photos des collaborateurs : 6 encore <strong>À COMPLÉTER</strong>. Cliquez sur une
+          vignette pour voir les avis clients.
         </p>
       </div>
 
