@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import { AnimatePresence, motion, type Transition } from "framer-motion";
 import {
   MapPin,
@@ -11,6 +12,7 @@ import {
   SlidersHorizontal,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ESTIMATION_ROUTE } from "@/data/nav";
 
 /* =========================================================
    Barre de recherche immobilière du héro.
@@ -89,7 +91,7 @@ const NUM_CLS =
   "[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none";
 const ICON_CLS = "h-[18px] w-[18px] shrink-0 text-muted-foreground";
 
-export function HeroSearch({ onSearch, estimationHref = "/estimation" }: HeroSearchProps) {
+export function HeroSearch({ onSearch, estimationHref = ESTIMATION_ROUTE }: HeroSearchProps) {
   const [tab, setTab] = React.useState<TabId>("acheter");
   const [filtersOpen, setFiltersOpen] = React.useState(false);
   const [filters, setFilters] = React.useState({
@@ -211,13 +213,13 @@ export function HeroSearch({ onSearch, estimationHref = "/estimation" }: HeroSea
         {tab === "vendre" ? (
           /* ----- VENDRE : un seul bouton d'appel à l'action centré ----- */
           <motion.div key="vendre" {...bodyAnim} className="flex items-center justify-center px-4 py-6">
-            <a
-              href={estimationHref}
+            <Link
+              to={estimationHref}
               className="group inline-flex items-center gap-2.5 rounded-md bg-primary px-9 py-4 text-[0.92rem] font-medium uppercase tracking-[0.18em] text-primary-foreground transition-colors duration-300 hover:bg-primary/90"
             >
               Estimez votre bien
               <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </a>
+            </Link>
           </motion.div>
         ) : (
           /* ----- ACHETER / LOUER ----- */

@@ -1,41 +1,24 @@
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { HeroSection } from "@/components/ui/hero-section-4";
-import { HeroSearch } from "@/components/HeroSearch";
-import { ReviewsSection } from "@/components/sections/ReviewsSection";
-import { FeaturedListings } from "@/components/sections/FeaturedListings";
-import { TeamCarousel } from "@/components/sections/TeamCarousel";
-import { AgencySection } from "@/components/sections/AgencySection";
+import { Routes, Route } from "react-router-dom";
+import { Layout } from "@/components/Layout";
+import { HomePage } from "@/pages/HomePage";
+import { PageTemplate } from "@/pages/PageTemplate";
+import { allPages } from "@/data/nav";
 
 function App() {
   return (
-    <>
-      <Header />
-      <main>
-        {/* Héro — fond vidéo, contenu réel BR Immobilier */}
-        <HeroSection
-          id="accueil"
-          videoUrl="/paris.mp4"
-          posterUrl="/poster.jpg"
-        >
-          {/* Barre de recherche (remplace les deux boutons d'action) */}
-          <HeroSearch />
-        </HeroSection>
+    <Routes>
+      <Route element={<Layout />}>
+        <Route index element={<HomePage />} />
 
-        {/* Avis clients (haut de page) */}
-        <ReviewsSection />
+        {/* Une page gabarit par sous-catégorie / catégorie sans sous-catégorie */}
+        {allPages.map((p) => (
+          <Route key={p.to} path={p.to} element={<PageTemplate title={p.title} />} />
+        ))}
 
-        {/* Biens en vedette */}
-        <FeaturedListings />
-
-        {/* Carrousel des négociateurs */}
-        <TeamCarousel />
-
-        {/* Présentation de l'agence */}
-        <AgencySection />
-      </main>
-      <Footer />
-    </>
+        {/* Repli */}
+        <Route path="*" element={<PageTemplate title="Page introuvable" />} />
+      </Route>
+    </Routes>
   );
 }
 

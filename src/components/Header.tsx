@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { MegaMenu, LangSelector } from "@/components/MegaMenu";
 import type { Lang } from "@/data/nav";
@@ -7,6 +8,7 @@ export function Header() {
   const [scrolled, setScrolled] = React.useState(false);
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [lang, setLang] = React.useState<Lang>("fr");
+  const isHome = useLocation().pathname === "/";
 
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -15,8 +17,9 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Texte clair sur la vidéo du héro, anthracite une fois la page défilée
-  const overHero = !scrolled;
+  // Texte clair sur la vidéo du héro (accueil non défilé), anthracite sinon
+  const overHero = isHome && !scrolled;
+  const solid = !overHero;
   const tone = cn(
     "transition-colors duration-500",
     overHero ? "text-primary-foreground [text-shadow:_0_1px_12px_rgba(0,0,0,0.4)]" : "text-foreground"
@@ -27,7 +30,7 @@ export function Header() {
       <header
         className={cn(
           "fixed inset-x-0 top-0 z-50 transition-all duration-500",
-          scrolled ? "bg-secondary py-2 shadow-[0_1px_0_hsl(var(--border))]" : "py-4"
+          solid ? "bg-secondary py-2 shadow-[0_1px_0_hsl(var(--border))]" : "py-4"
         )}
       >
         <div className="mx-auto grid grid-cols-3 items-center px-6 lg:px-16">
@@ -48,16 +51,16 @@ export function Header() {
           </div>
 
           {/* Centre : logo */}
-          <a href="#accueil" aria-label="BR Immobilier — Accueil" className="justify-self-center">
+          <Link to="/" aria-label="BR Immobilier — Accueil" className="justify-self-center">
             <img
               src="/logo.png"
               alt="BR Immobilier"
               className={cn(
                 "w-auto transition-all duration-500",
-                scrolled ? "h-12 md:h-[110px]" : "h-16 md:h-[150px] drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)]"
+                solid ? "h-12 md:h-[110px]" : "h-16 md:h-[150px] drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)]"
               )}
             />
-          </a>
+          </Link>
 
           {/* Droite : sélecteur de langue */}
           <div className={cn("justify-self-end", tone)}>
@@ -66,7 +69,6 @@ export function Header() {
         </div>
       </header>
 
-      {/* Mega-menu plein écran */}
       <MegaMenu open={menuOpen} onClose={() => setMenuOpen(false)} lang={lang} setLang={setLang} />
     </>
   );
