@@ -39,8 +39,8 @@ export function TeamCarousel() {
   }, [emblaApi]);
 
   return (
-    <section id="equipe" className="px-6 py-20 md:py-28 lg:px-16">
-      <div className="mx-auto max-w-none">
+    <section id="equipe" className="home-section surface-white hairline-center elevate-top">
+      <div>
         <Reveal className="mb-12 text-center">
           <p className="text-xs uppercase tracking-[0.34em] text-muted-foreground">
             Notre équipe
@@ -146,7 +146,7 @@ export function TeamCarousel() {
           ))}
         </div>
 
-        <p className="mt-8 text-center text-sm italic text-muted-foreground">
+        <p className="mx-auto mt-8 max-w-[68ch] text-center text-sm italic text-muted-foreground">
           Photos des collaborateurs : 6 encore <strong>À COMPLÉTER</strong>. Cliquez sur une
           vignette pour voir les avis clients.
         </p>

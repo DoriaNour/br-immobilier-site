@@ -21,6 +21,12 @@ export interface NavGroup {
 /** Route de la page d'estimation — partagée (menu + bouton du héro) */
 export const ESTIMATION_ROUTE = "/estimation";
 
+/** Route de la page « Vendez avec BR Immobilier » (sous-catégorie de Vendre) */
+export const VENDRE_AVEC_BR_ROUTE = "/vendre-avec-br";
+
+/** Route de la page « Shooting photo » (scrollytelling dédié) */
+export const SHOOTING_ROUTE = "/shooting";
+
 export const navGroups: NavGroup[] = [
   {
     title: "Acquérir",
@@ -41,6 +47,7 @@ export const navGroups: NavGroup[] = [
   {
     title: "Vendre",
     links: [
+      { label: "Vendez avec BR IMMOBILIER", to: VENDRE_AVEC_BR_ROUTE },
       { label: "Nos biens vendus", to: "/vendre/biens-vendus" },
       { label: "Faites estimer votre bien", to: ESTIMATION_ROUTE },
     ],
@@ -48,7 +55,7 @@ export const navGroups: NavGroup[] = [
   {
     title: "Nos prestations",
     links: [
-      { label: "Shooting photo", to: "/prestations/shooting-photo" },
+      { label: "Shooting photo", to: SHOOTING_ROUTE },
       { label: "Visite virtuelle", to: "/prestations/visite-virtuelle" },
       { label: "Plans sur-mesure", to: "/prestations/plans-sur-mesure" },
       { label: "Vidéo immobilière", to: "/prestations/video-immobiliere" },

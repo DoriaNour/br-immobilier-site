@@ -5,7 +5,7 @@ export function ReviewsSection() {
   const { note, total, source, liste } = avisGlobal;
 
   return (
-    <section id="avis" className="bg-secondary px-6 py-20 md:py-28 lg:px-16">
+    <section id="avis" className="home-section surface-white hairline-top elevate-top">
       <div className="mx-auto max-w-none">
         {/* En-tête */}
         <div className="mb-12 flex flex-wrap items-end justify-between gap-8">
@@ -50,7 +50,7 @@ export function ReviewsSection() {
           ))}
         </RevealGroup>
 
-        <p className="mt-8 text-sm italic text-muted-foreground">
+        <p className="measure mt-8 text-sm italic text-muted-foreground">
           Avis vérifiés Opinion System (certificat n°10870). Certains textes complets ne sont pas
           extractibles automatiquement — verbatim intégral : <strong>À COMPLÉTER</strong>.
         </p>

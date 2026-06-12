@@ -35,6 +35,22 @@
     --ring: 0 0% 13%;
 
     --radius: 0.25rem;
+
+    /* =====================================================
+       Délimitation des sections (page d'accueil)
+       Tons de fond centralisés + leviers de séparation.
+       ===================================================== */
+    --ivory: #eeebe4;
+    --ivory-light: #f5f3ee;
+    --white: #ffffff;
+    --anthracite: #222222;
+
+    /* Filets (hairlines) : à sentir plus qu'à voir */
+    --hairline: rgba(34, 34, 34, 0.08);
+    --hairline-invert: rgba(238, 235, 228, 0.12);
+
+    /* Respiration verticale homogène par section */
+    --section-pad: clamp(5rem, 11vh, 9rem);
   }
 
   * {
@@ -43,5 +59,214 @@
   body {
     @apply bg-background text-foreground font-sans;
     -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* =========================================================
+   Système de délimitation des sections — PAGE D'ACCUEIL
+   La séparation ne repose jamais sur la seule couleur :
+   fond + filet + respiration + rupture de largeur + élévation.
+   ========================================================= */
+@layer components {
+  /* Respiration verticale homogène + contexte de positionnement
+     (pour les filets en ::before). */
+  .home-section {
+    position: relative;
+    padding-top: var(--section-pad);
+    padding-bottom: var(--section-pad);
+    /* Gouttières latérales larges, homogènes et CONSTANTES sur toutes les
+       sections (full-bleed) : le contenu occupe toute la largeur utile mais
+       ne touche jamais le bord de l'écran. */
+    padding-left: clamp(2rem, 6vw, 6rem);
+    padding-right: clamp(2rem, 6vw, 6rem);
+  }
+
+  /* Tons de fond (cf. ordre dans HomePage) */
+  .surface-white {
+    background: var(--white);
+  }
+  .surface-ivory {
+    background: var(--ivory);
+  }
+  .surface-ivory-light {
+    background: var(--ivory-light);
+  }
+  /* Section d'accent : fond anthracite, texte ivoire */
+  .surface-anthracite {
+    background: var(--anthracite);
+    color: var(--ivory);
+  }
+
+  /* Longueur de ligne lisible : à appliquer UNIQUEMENT aux paragraphes de
+     texte courant (aligné à gauche). Titres, grilles, images et blocs
+     visuels exploitent eux la pleine largeur. */
+  .measure {
+    max-width: 68ch;
+  }
+
+  /* --- Filets (hairlines) entre deux sections de fond proche --- */
+  /* Filet pleine largeur en tête de section */
+  .hairline-top::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--hairline);
+  }
+  /* Filet court centré (~48px) en tête de section */
+  .hairline-center::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 48px;
+    height: 1px;
+    background: var(--hairline);
+  }
+  /* Variante sur fond anthracite (ivoire très faible) */
+  .hairline-invert::before {
+    background: var(--hairline-invert);
+  }
+
+  /* --- Élévation subtile : fait "flotter" légèrement une section --- */
+  .elevate-top {
+    box-shadow: 0 -1px 40px rgba(0, 0, 0, 0.04);
+  }
+}
+
+/* =========================================================
+   Carte des biens vendus (Leaflet) — habillage charte BR
+   Anthracite #222222 / Crème #ECE2C8, rendu épuré sans tuiles.
+   ========================================================= */
+@layer components {
+  /* Fond de la carte = aplat neutre (la "couronne" hors Paris) */
+  .br-map .leaflet-container {
+    background: #e4dac1;
+    font-family: "Jost", system-ui, sans-serif;
+    outline: none;
+  }
+
+  /* Contrôle de zoom restylé en charte */
+  .br-map .leaflet-bar a,
+  .br-map .leaflet-bar a:hover {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    color: #222222;
+    background: #ece2c8;
+    border: none;
+    border-bottom: 1px solid rgba(34, 34, 34, 0.18);
+    font-weight: 400;
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+  .br-map .leaflet-bar a:hover {
+    background: #222222;
+    color: #ece2c8;
+  }
+  .br-map .leaflet-bar {
+    border: 1px solid rgba(34, 34, 34, 0.25);
+    border-radius: 2px;
+    box-shadow: none;
+    overflow: hidden;
+  }
+  .br-map .leaflet-control-attribution {
+    display: none;
+  }
+
+  /* Infobulle au survol d'un arrondissement / commune */
+  .br-tip {
+    background: #222222;
+    color: #ece2c8;
+    border: none;
+    border-radius: 2px;
+    padding: 3px 9px;
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    box-shadow: none;
+    white-space: nowrap;
+  }
+  .br-tip::before {
+    display: none;
+  }
+
+  /* Marqueur d'un bien vendu */
+  .br-pin {
+    display: block;
+    width: 16px;
+    height: 16px;
+    border-radius: 9999px;
+    background: #222222;
+    border: 2px solid #ece2c8;
+    box-shadow: 0 0 0 1px rgba(34, 34, 34, 0.35);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      background 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+  }
+  .br-pin::after {
+    content: "";
+    position: absolute;
+    inset: -6px;
+    border-radius: 9999px;
+    border: 1px solid rgba(34, 34, 34, 0.4);
+    opacity: 0;
+    transform: scale(0.6);
+    animation: br-pin-pulse 2.6s ease-out infinite;
+  }
+  .br-pin:hover {
+    transform: scale(1.18);
+  }
+  .br-pin--active {
+    background: #ece2c8;
+    border-color: #222222;
+    transform: scale(1.35);
+  }
+  .br-pin--active::after {
+    border-color: rgba(34, 34, 34, 0.55);
+  }
+  @keyframes br-pin-pulse {
+    0% {
+      opacity: 0.6;
+      transform: scale(0.6);
+    }
+    70% {
+      opacity: 0;
+      transform: scale(1.5);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.5);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .br-pin::after {
+      animation: none;
+    }
+  }
+}
+
+/* =========================================================
+   Carrousel « Nos biens en vedette » — ruban défilant
+   (droite → gauche, boucle continue ; liste dupliquée ×2,
+   chaque carte porte sa marge droite => -50% sans rupture).
+   ========================================================= */
+@keyframes br-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.br-marquee {
+  animation: br-marquee var(--marquee-duration, 48s) linear infinite;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .br-marquee {
+    animation: none;
   }
 }

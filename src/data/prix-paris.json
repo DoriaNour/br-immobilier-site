@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "source": "DVF — Demandes de valeurs foncières géolocalisées (data.gouv.fr / Etalab)",
+    "generatedAt": "DEMO",
+    "periodMonths": 24,
+    "unit": "EUR/m2",
+    "isDemo": true,
+    "note": "VALEURS DE DÉMONSTRATION (réalistes mais non officielles). Régénérez ce fichier avec `node scripts/build-prix-dvf.mjs <export-dvf.csv>` pour obtenir les médianes réelles. Voir src/components/estimation/README.md."
+  },
+  "cities": {
+    "paris": {
+      "label": "Paris",
+      "default": true,
+      "districts": {
+        "75001": { "label": "Paris 1er", "appartement": 12700, "maison": 13200 },
+        "75002": { "label": "Paris 2e", "appartement": 11800, "maison": 12300 },
+        "75003": { "label": "Paris 3e", "appartement": 12800, "maison": 13400 },
+        "75004": { "label": "Paris 4e", "appartement": 13300, "maison": 13900 },
+        "75005": { "label": "Paris 5e", "appartement": 12700, "maison": 13300 },
+        "75006": { "label": "Paris 6e", "appartement": 14800, "maison": 15600 },
+        "75007": { "label": "Paris 7e", "appartement": 14200, "maison": 15000 },
+        "75008": { "label": "Paris 8e", "appartement": 12300, "maison": 13000 },
+        "75009": { "label": "Paris 9e", "appartement": 11400, "maison": 11900 },
+        "75010": { "label": "Paris 10e", "appartement": 10500, "maison": 10900 },
+        "75011": { "label": "Paris 11e", "appartement": 10800, "maison": 11200 },
+        "75012": { "label": "Paris 12e", "appartement": 10200, "maison": 10700 },
+        "75013": { "label": "Paris 13e", "appartement": 9900, "maison": 10300 },
+        "75014": { "label": "Paris 14e", "appartement": 10700, "maison": 11200 },
+        "75015": { "label": "Paris 15e", "appartement": 10600, "maison": 11100 },
+        "75016": { "label": "Paris 16e", "appartement": 11500, "maison": 12400 },
+        "75017": { "label": "Paris 17e", "appartement": 10900, "maison": 11500 },
+        "75018": { "label": "Paris 18e", "appartement": 10100, "maison": 10500 },
+        "75019": { "label": "Paris 19e", "appartement": 9300, "maison": 9700 },
+        "75020": { "label": "Paris 20e", "appartement": 9500, "maison": 9900 }
+      }
+    }
+  }
+}

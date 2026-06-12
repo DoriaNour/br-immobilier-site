@@ -1,0 +1,10 @@
+# Configuration Netlify — BR Immobilier (app Vite/React)
+# Le fallback SPA reste géré par public/_redirects (/* -> /index.html 200).
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"

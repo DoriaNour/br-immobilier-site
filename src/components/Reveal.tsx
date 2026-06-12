@@ -1,11 +1,17 @@
 import * as React from "react";
-import { motion, type Variants } from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "motion/react";
 import { cn } from "@/lib/utils";
 
 /**
- * Reveal — apparition au défilement, dans le même registre que le héro
- * (fondu + translation douce). Optionnellement décalée (stagger) pour les listes.
+ * Reveal — apparition sobre au défilement (fondu + légère montée).
+ * Motion (`motion/react`). Respecte prefers-reduced-motion : si l'utilisateur
+ * a désactivé les animations, le contenu s'affiche sans mouvement.
+ * Déclenchement : whileInView, une seule fois, un peu avant l'entrée complète.
  */
+const EASE = [0.22, 1, 0.36, 1] as const;
+const DURATION = 0.7;
+const VIEWPORT = { once: true, margin: "-80px" } as const;
+
 interface RevealProps extends React.HTMLAttributes<HTMLDivElement> {
   delay?: number;
   y?: number;
@@ -14,14 +20,17 @@ interface RevealProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const Reveal = React.forwardRef<HTMLDivElement, RevealProps>(
   ({ className, children, delay = 0, y = 24, ...props }, ref) => {
-    const variants: Variants = {
-      hidden: { opacity: 0, y },
-      visible: {
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1], delay },
-      },
-    };
+    const reduce = useReducedMotion();
+    const variants: Variants = reduce
+      ? { hidden: { opacity: 1, y: 0 }, visible: { opacity: 1, y: 0 } }
+      : {
+          hidden: { opacity: 0, y },
+          visible: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: DURATION, ease: EASE, delay },
+          },
+        };
     return (
       <motion.div
         ref={ref}
@@ -29,7 +38,7 @@ const Reveal = React.forwardRef<HTMLDivElement, RevealProps>(
         variants={variants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
+        viewport={VIEWPORT}
         {...(props as React.ComponentProps<typeof motion.div>)}
       >
         {children}
@@ -40,20 +49,21 @@ const Reveal = React.forwardRef<HTMLDivElement, RevealProps>(
 Reveal.displayName = "Reveal";
 
 /**
- * RevealGroup — conteneur qui orchestre l'apparition décalée de ses enfants RevealItem.
+ * RevealGroup — orchestre l'apparition décalée (stagger) de ses RevealItem.
  */
 export function RevealGroup({
   className,
   children,
-  stagger = 0.09,
+  stagger = 0.1,
 }: {
   className?: string;
   children: React.ReactNode;
   stagger?: number;
 }) {
+  const reduce = useReducedMotion();
   const container: Variants = {
     hidden: {},
-    visible: { transition: { staggerChildren: stagger } },
+    visible: { transition: { staggerChildren: reduce ? 0 : stagger } },
   };
   return (
     <motion.div
@@ -61,7 +71,7 @@ export function RevealGroup({
       variants={container}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.15 }}
+      viewport={VIEWPORT}
     >
       {children}
     </motion.div>
@@ -77,10 +87,13 @@ export function RevealItem({
   children: React.ReactNode;
   y?: number;
 }) {
-  const item: Variants = {
-    hidden: { opacity: 0, y },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
-  };
+  const reduce = useReducedMotion();
+  const item: Variants = reduce
+    ? { hidden: { opacity: 1, y: 0 }, visible: { opacity: 1, y: 0 } }
+    : {
+        hidden: { opacity: 0, y },
+        visible: { opacity: 1, y: 0, transition: { duration: DURATION, ease: EASE } },
+      };
   return (
     <motion.div className={cn(className)} variants={item}>
       {children}

@@ -1,20 +1,25 @@
+import * as React from "react";
+import { animate, useInView } from "framer-motion";
 import { agence } from "@/data/site";
 import { Reveal } from "@/components/Reveal";
 import { ArrowRight } from "lucide-react";
 
 export function AgencySection() {
   return (
-    <section id="agence" className="px-6 py-20 md:py-28 lg:px-16">
-      <div className="mx-auto grid max-w-none items-center gap-12 md:grid-cols-2 md:gap-20">
+    <section id="agence" className="home-section surface-white">
+      <div className="grid items-center gap-12 md:grid-cols-[0.85fr_1fr] md:gap-24">
         {/* Visuel */}
         <Reveal className="overflow-hidden rounded-sm">
-          <div className="group aspect-[4/4.6] overflow-hidden">
-            <img
-              src="https://images.unsplash.com/photo-1549517045-bc93de075e53?auto=format&fit=crop&w=1200&q=80"
-              alt="L'agence BR Immobilier"
-              loading="lazy"
-              className="h-full w-full object-cover transition-transform duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
-            />
+          <div className="group mx-auto aspect-[4/4.6] w-[70%] overflow-hidden rounded-sm">
+            <picture>
+              <source srcSet="/agence.webp" type="image/webp" />
+              <img
+                src="/agence.jpg"
+                alt="Les bureaux de BR Immobilier à Paris"
+                loading="lazy"
+                className="h-full w-full object-cover transition-transform duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
+              />
+            </picture>
           </div>
         </Reveal>
 
@@ -28,11 +33,11 @@ export function AgencySection() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <p className="mt-6 max-w-prose text-muted-foreground">
+            <p className="measure mt-6 text-muted-foreground">
               Spécialiste de la vente et de l'acquisition à Paris et en Île-de-France, BR Immobilier
               conjugue exigence, discrétion et connaissance fine du terrain.
             </p>
-            <p className="mt-4 max-w-prose text-muted-foreground">
+            <p className="measure mt-4 text-muted-foreground">
               Notre cabinet réunit <strong className="text-foreground">30 collaborateurs</strong>{" "}
               spécialisés en transaction immobilière, avec un objectif constant : que chaque étape se
               déroule avec fluidité et sérénité.
@@ -61,8 +66,72 @@ export function AgencySection() {
               <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
             </a>
           </Reveal>
+
+          {/* Compteur de statistiques animé (montée au scroll) */}
+          <Reveal delay={0.36}>
+            <div className="mt-10 grid grid-cols-1 gap-8 border-t border-border pt-8 sm:grid-cols-3 sm:gap-6">
+              <StatCounter prefix="Top " value={10} label="des agences les plus dynamiques" />
+              <StatCounter prefix="+ de " value={350} label="projets de vente et d'achat en 2025" delay={0.1} />
+              <StatCounter prefix="+ de " value={30} label="collaborateurs dévoués" delay={0.2} />
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>
+  );
+}
+
+/**
+ * StatCounter — chiffre animé de 0 → `value` (décélération douce),
+ * déclenché une seule fois quand l'élément entre dans le viewport.
+ * Respecte prefers-reduced-motion (affiche directement la valeur).
+ */
+function StatCounter({
+  value,
+  label,
+  prefix = "",
+  delay = 0,
+}: {
+  value: number;
+  label: string;
+  prefix?: string;
+  delay?: number;
+}) {
+  const ref = React.useRef<HTMLDivElement>(null);
+  const numRef = React.useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.5 });
+
+  React.useEffect(() => {
+    const node = numRef.current;
+    if (!inView || !node) return;
+
+    const reduce =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reduce) {
+      node.textContent = value.toLocaleString("fr-FR");
+      return;
+    }
+
+    const controls = animate(0, value, {
+      duration: 1.8,
+      delay,
+      ease: [0.22, 1, 0.36, 1],
+      onUpdate(v) {
+        node.textContent = Math.round(v).toLocaleString("fr-FR");
+      },
+    });
+    return () => controls.stop();
+  }, [inView, value, delay]);
+
+  return (
+    <div ref={ref}>
+      <p className="font-serif text-4xl font-medium leading-none text-foreground md:text-5xl">
+        {prefix}
+        <span ref={numRef}>0</span>
+      </p>
+      <p className="mt-2 text-sm text-muted-foreground">{label}</p>
+    </div>
   );
 }

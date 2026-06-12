@@ -1,6 +1,19 @@
+# --- Dépendances et build (lourd, jamais sur GitHub) ---
 node_modules
 dist
 dist-ssr
-*.local
-.DS_Store
 .vite
+
+# --- Secrets : clés, mots de passe, jetons (JAMAIS sur GitHub) ---
+.env
+.env.*
+*.local
+
+# --- Fichiers macOS / divers ---
+.DS_Store
+
+# --- Archives lourdes (ne pas committer) ---
+*.zip
+
+# --- Photos brutes du shooting (originaux non utilisés par le site) ---
+public/shooting/Shooting photo/
